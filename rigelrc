@@ -4,14 +4,14 @@
 # c:lower:upper (configuration register bounds)
 # m:size:write:read (max packet size, write timeout (msec/byte), read timeout
 
-device "PIC18F8722" {
-	comment "FRC 2006-2008"
-	program 0x000800-0x01FFFF
-	eeprom  0x000000-0x0003FF
-	config  0x300000-0x30000F
-	packetsize 128
-	latency 3 1
-}
+#device "PIC18F8722" {
+#	comment "FRC 2006-2008"
+#	program 0x000800-0x01FFFF
+#	eeprom  0x000000-0x0003FF
+#	config  0x300000-0x30000F
+#	packetsize 128
+#	latency 3 1
+#}
 
 d:1420:PIC18F8722
 p:000800:01FFFF
