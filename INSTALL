@@ -1,0 +1,11 @@
+Installing rigel on UNIX:
+-------------------------
+
+$ ./configure && make
+# make install
+
+:)
+
+Installing rigel on Win32:
+--------------------------
+Compile using Cygwin + MingW.

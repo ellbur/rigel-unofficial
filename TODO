@@ -1,0 +1,7 @@
+Todo:
+-----
+* Integrate Bill Carr's networking code
+* Work on serialio code, needs refactoring
+* GUI version (!)
+* Make necessary changes for big-endian arches
+* Test on other *NIX platforms

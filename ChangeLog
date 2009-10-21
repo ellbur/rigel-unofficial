@@ -1,0 +1,147 @@
+rigel changelog
+
+Release 0.99.2
+--------------
+- general code + string cleanup
+- inhex32: use enums instead of macros for certain data types
+- inhex32: use proper format strings for data types smaller than sizeof(uint32_t)
+- inhex32: more rigorous error checking for input validation
+- inhex32: always support both extended linear and segment addressing
+- rigel: use proper format strings for data types smaller than sizeof(uint32_t)
+- rigel: only erase as much program memory as the data file calls for
+- rigel: report the correct percentage of used non-bootloader program memory
+- device: remove device_mmap_file API call
+- pic18: add struct pic18_memory_layout, remove "pmem_t" type from other headers
+- rigelrc: add devid for PIC18F422 (if 05A0 doesn't work, try 04A0)
+- rigelrc: fix stupid bug in config finding code path
+- rigelrc: more rigorous parsing checks, free all memory on error
+
+Release 0.99.1
+--------------
+- rigel: move build system to autotools (finally)
+- rigel: created man page
+- rigel: add uint32_t *read_size to rigel_memdump API call
+- rigel: fix potential bug related to above (checking unsigned return as signed)
+- rigel: cleanup rigel-common.c
+- rigel: fixup headers across the board, move includes/*.h to libs/
+- device: fix bug in device_read_user that cut of max_packet_size bytes
+- device: add device_program_alloc and device_program_free API functions
+- device: deprecate device_mmap_file (here we go again)
+- device: fix bug in binaryf_read where a large file could cause buffer overrun
+- inhex32: remove ifi_bin_size (not used anymore)
+- inhex32: force struct inhex32_record usage (was typedef inhex32_record_t)
+- inhex32: unify fmt_read functions and define type FormatReadFunc
+- utils: remove build shell scripts
+
+Release 0.15
+------------
+- device: use struct device instead of device_t
+- device: add rudimentary state machine to keep track of connected state
+- device: move temporary buffer from global alloc to struct device (reentrancy)
+- device: fix a few const qualifiers to adjust for above alloc scheme
+- device: add buffer size parameter to device_read_{user,loader}
+- device: add API call device_erase_flash_region
+- device: move VALID_FLASH macro from pic18.h -> device.h
+- device: don't save extraneous "erased" bytes when reading user program
+- device: don't memset struct device on device_disconnect
+- device: fix off-by-one in device_read_loader buffer size check
+- rigel: reflect changes to device API
+- rigel: fix memory leak in all cases (didn't free device configurations)
+- rigel: fix memory leak on program/eeprom load
+- rigel: add null-pointer check for filename passed to rigel_get_rc
+- all: Fix up license headers, source file descriptions, add emacs indent commands
+	
+Release 0.14
+------------
+- build: adjusted Makefile to directly link with librigel
+- all: remove Win32 API support. Will now pacakge cygwin DLL instead.
+- serialio: bugfix in sio_settimeout (Bill Carr)
+- an851:  implemented an851_repeat (finally)
+- an851:  fix bug in several write functions where success was always returned.
+- an851:  fix bug in an851_wr_eeprom (never actually copied user data)
+- an851:  fix bug in an851_wr_config (missing length byte)
+- an851:  fix bug in implementation of ifi_wr_row (could not validate
+          the ACK and therefore always reported success)
+- device: add check for IFI devices in device_connect
+- device: use IFI erase extensions for IFI devices
+- device: use proper run program semantics for non-IFI devices (see datasheet)
+- device: add function device_connect_only to just open and validate ports
+          without needing device handshakes. (Bill Carr)
+- rigel: corrected exit code on malloc failure
+- rigel: improve color code macros
+- rigel: allow use of --read --eeprom in addition to --read=eeprom
+- rigel: add option --no-ifi to disable IFI erase extensions
+- rigel: now copies global config file /etc/rigelrc to $HOME/.rigelrc
+         on first run and uses that by default, and the global only
+         as a backup. Refactored rigel_rc_parse to make it cleaner.
+
+Release 0.13
+------------
+- all: preliminary big-endian support (read: not ready yet)
+- an851: fix implementation of IFI_RUN_CODE
+- an851: overhaul of packet transmit routine. now retries 3 times for any
+         packet send without a response.  Also fixes a related bug.
+- device: force 8-byte alignment on all calls to an851_wr_flash
+- device: implement device_mmap_file call to pre-load program to memory
+- device: remove format-specific code from device_load_program
+- serialio: fix a few issues with compilation under Win32
+- rigel: update to use above device API changes, clean up output
+- rigel: add --eeprom option to load binary file to EEPROM
+- rigel: add nifty ANSI terminal colors on supported (i.e. non-Win32) platforms.
+- rigel: change option arguments to be case-insensitive (strncmp -> strncasecmp)
+- serialio: use select instead of poll on POSIX systems; poll is not implemented on OS X.
+- serialio: fix bug on POSIX systems where timeout was never initialized and thus
+            select would fail with an invalid timeout if the program called
+            sio_read without calling sio_settimeout
+            
+Release 0.12
+------------
+- device: change device read heuristic to wait for 512 erased bytes, which
+          almost always should mean end-of-program. The glaring exception
+          is the "master firmware" program, which has a 3KB+ gap in between
+          different parts of its data.
+- device: clean up unnecessary output, move connection info to main program
+          instead of device_connect
+- rigel:  added support for master firmware update with --master
+- rigel:  less output, display full parameter list only with --help
+- inhex32: fix bug in applying linear addresses
+- inhex32: check for condition in which MPLINK generates data for configuration
+           registers, which must be ignored (they are not writable)
+
+Release 0.11
+------------
+- serialio: significant changes to sio_read to poll/COMMTIMEOUTS instead of 
+            non-blocking I/O, which greatly improves load times (45s -> 5s or so)
+- an851: update to take advantage of serialio changes.
+- rigel: fix bug in device read selection code
+- utils: added "an851d" tool (faux PIC18F device for debug purposes)
+
+Release 0.10
+------------
+- rigel: Added Win32 signal support to terminal capture mode.
+- rigel: Added -e, --erase option (device erase only).
+- rigel: Added -f, --format option (supports INHEX32, IFIBIN, and raw binary)
+- rigel: Added clean "progress bar" callback
+- serialio: Completed Win32 port, tested.
+- inhex32: added support for IFI BIN format files (i.e. master firmware)
+- an851: removed some dead code
+- all: Moved all error messages to the varg macros WARN, ERROR, and FATAL
+- all: started work on wxWidgets front-end in gui/
+
+Release 0.9
+-----------
+- rigel: Added basic "terminal" support to the command-line version
+         (basically redirects serial input to stdout or whatever the
+         user specifies)
+- utils: Added "hextool" util (convert HEX to BIN, verify HEX files)
+- device: added device_reset and device_run_program wrappers
+
+Release 0.8
+-----------
+- ihex: Fixed bug in applying extended linear addresses in ihex_read
+- ihex: Added API function ihex_validate: check if hex file is valid.
+- rigel: Fixed potential bug in memory handling for dump operations.
+- device: Added support for boot block sizes other than IFI settings (2KB)
+- serialio: Added preliminary Win32 I/O support.
+- serialio: Added DEFAULT_SERIAL_PORT macro for portability (Linux, OSX, Win32)
+- serialio: Moving waitus() from nanosleep to setitimer on POSIX platforms.

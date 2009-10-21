@@ -1,0 +1,24 @@
+# d:DEVID mask:name
+# p:lower:upper (flash memory bounds)
+# e:lower:upper (EEPROM data memory bounds)
+# c:lower:upper (configuration register bounds)
+# m:size:write:read (max packet size, write timeout (msec/byte), read timeout
+
+d:1420:PIC18F8722
+p:000800:sdfagr
+e:000000:0003FF
+c:300000:30000F
+m:128:3:1
+
+d:0B00:PIC18F8520
+p:000800:007FFF
+e:000000:0003FF
+c
+m:128:3:1
+
+#if this doesn't work, try 04A0, and email me
+d:05A0:PIC18F422
+p:000800:003FFF
+e:000000:0000FF
+c:300000:30000F
+m:128:3:1

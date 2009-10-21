@@ -1,0 +1,86 @@
+.TH "rigel" 1 "(c) 2006, 2007 Harry Bock"
+.SH NAME
+rigel \- AN851/FRC Program Reader/Loader
+.SH SYNOPSIS
+rigel [OPTIONS] [FILE]
+.SH DESCRIPTION
+.B rigel
+is a program designed to replace IFI_Loader, a program distributed
+with the FIRST Robotics programming system. It can load programs onto
+any FIRST controller (FRC, VEX, etc.) that uses the AN851 protocol,
+including non-FIRST versions for Microchip (TM) PIC18 chips (PIC16 chips
+are not explicitly supported, but may work).
+
+In addition to programming devices, rigel can read back the current program
+data into INHEX32 format, load binary or INHEX32-formatted data into
+EEPROM, and load the master firmware for FIRST controllers.
+.SH OPTIONS
+.TP
+.B -s, --serial=DEV
+Use TTY device DEV for connection. Defaults for supported systems:
+Linux: /dev/ttyS0
+Windows (CYGWIN): /dev/ttyS0
+Mac OS X: /dev/tty.serial
+
+USB serial adapters and Bluetooth modems may be used.
+.TP
+.B -d, --read=REGION
+Read data from memory region REGION to the INHEX32 file specified as FILE.
+Supports: program (default, FLASH memory minus loader), boot (AN851 loader),
+eeprom
+.TP
+.B -f, --format=FMT
+Specify the format for the input or output file. Supported: hex (INHEX32),
+bin (IFI .BIN format), raw (binary data - use with caution). Defaults to
+INHEX32 format.
+.TP
+.B -r, --run[=yes,no]
+Run currently loaded program after all operations complete [default].
+.TP
+.B -e, --erase
+Force erase all flash memory on device.  Can be used to erase without loading a program.
+.TP
+.B -i, --no-ifi
+Disable IFI erase extensions for FRC/IFI controllers.
+.TP
+.B -p, --eeprom
+Load input file to data EEPROM instead of FLASH.
+.TP
+.B -m, --master
+Update (or downgrade) master processor firmware (FRC/IFI controllers only).
+.TP
+.B -c, --configreg
+Print out possibly interesting information based on configuration register data.
+.TP
+.B -l, --devlist=CONF
+Use file CONF for device configuration settings.
+Defaults to ~/.rigelrc or /etc/rigelrc.
+.TP
+.B -v, --verify
+Verify all written data against original source data.  Recommended, and only
+adds a few seconds to the load time.
+.TP
+.B -h, --help
+Show these options.
+.TP
+.B FILE
+Filename to load program from or read data to.
+.SH AUTHOR
+Harry Bock <hbock@providence.edu>
+.SH COPYRIGHT
+Copyright (C) 2006-2008 Harry Bock
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ 

@@ -1,0 +1,4 @@
+#ifndef _rigelConfig_h
+#define _rigelConfig_h
+#cmakedefine HAVE_CONFIG_H
+#endif

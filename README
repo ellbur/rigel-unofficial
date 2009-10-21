@@ -1,0 +1,46 @@
+rigel - Open-source program loader/reader for PIC18F devices using the AN851 
+bootloader protocol.
+
+Rigel is a complete, free replacement for the IFI_Loader tool from
+Innovation First for the FIRST Robotics Competition. It should support any 
+PIC18F device that loads programs via the AN851 (or a 100% compatible, 
+like that from IFI) bootloader protocol through a serial port interface.
+Rigel is 100% POSIX compliant and has no dependencies other than libc;
+to compile on Windows, you must use Cygwin.
+
+PLEASE NOTE that in order for rigel to be able to open the serial port on UNIX,
+one of the following conditions must be true:
+    - You own (or your group owns) the serial port you are using, or rw- perms
+      are enabled for your user on that port.
+    - You are running rigel as the root user.
+    
+Typical usage:
+
+To load a compiled program to your device, verifying each write:
+$ rigel --verify racknroll.hex
+
+To update the master firmware (automatically verifies each write):
+$ rigel --master FRC_MASTER_V13.BIN
+
+To read program memory to working.hex:
+$ rigel --read working.hex
+
+To dump the AN851 bootloader code in binary format:
+$ rigel --read=boot --format=raw an851.bin
+
+To display some of the configuration registers on your device:
+$ rigel --configreg
+
+To load a binary file to EEPROM memory:
+$ rigel --eeprom --format=raw calibration.bin
+or from a HEX file:
+$ rigel --eeprom eedata.hex
+
+To specify a non-default serial port:
+$ rigel --serial=/dev/ttyS2 test.hex
+$ rigel --serial=/dev/tty.serial --master FRC_MASTER_V13.BIN
+
+For more information, see the rigel(1) man page.
+
+Harry Bock
+hbock@providence.edu
