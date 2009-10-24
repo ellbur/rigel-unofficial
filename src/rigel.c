@@ -164,11 +164,14 @@ main(int argc, char **argv)
     options.run = 1;
     options.fmt = IntelHexFormat;
     
-    while((c = getopt_long(argc, argv, "mcpvihzf:l:a::r::t::s::d::",
+    while((c = getopt_long(argc, argv, "mcpvihzf:l:a::r::t::s:d::",
                            longopts, NULL)) != -1) {
         switch (c) {
         case 's':
+	    
             if(!optarg) {
+		printf("no optarg specified -- using default\n");
+
                 options.device = DEFAULT_SERIAL_PORT;
                 rigel_warn("No serial port specified, trying "
                      "default device %s.\n\n", DEFAULT_SERIAL_PORT);
@@ -232,7 +235,14 @@ main(int argc, char **argv)
             goto usage;
         }
     }
-        
+
+    if (! options.etc) {
+    	printf("You should specify a rigelrc file with -l. There should be "
+	       "one in the source tree called 'rigelrc'.\n");
+	printf("Anyway so since we don't have one you'll probably see "
+	       "horid errors in the next step.\n");
+    }
+    
     ndev = rigel_rc_load(options.etc, devices, CONFIG_MAX_DEVICES);
     
     if(ndev == -1)
