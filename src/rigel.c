@@ -235,16 +235,16 @@ main(int argc, char **argv)
             goto usage;
         }
     }
+  
+    ndev = rigel_rc_load(options.etc, devices, CONFIG_MAX_DEVICES);
 
-    if (! options.etc) {
+    if (ndev == -1 && !options.etc) {
     	printf("You should specify a rigelrc file with -l. There should be "
 	       "one in the source tree called 'rigelrc'.\n");
 	printf("Anyway so since we don't have one you'll probably see "
 	       "horid errors in the next step.\n");
     }
-    
-    ndev = rigel_rc_load(options.etc, devices, CONFIG_MAX_DEVICES);
-    
+
     if(ndev == -1)
         rigel_fatal("Could not load device configuration list %s\n", options.etc);
         
