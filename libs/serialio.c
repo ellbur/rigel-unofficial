@@ -148,11 +148,14 @@ sio_open(const char *device)
 	 *  - 1 STOP bit (default)
 	 *  - 115200 default baud; */
     memset(tty_opts.c_cc, 0, NCCS);
-    
+   
+    cfsetispeed(&tty_opts, B115200);
+    cfsetospeed(&tty_opts, B115200); 
+
     tty_opts.c_iflag = IGNPAR;
     tty_opts.c_oflag = 0;
     tty_opts.c_lflag = 0;
-    tty_opts.c_cflag = B115200 | CLOCAL | CREAD | CS8;
+    tty_opts.c_cflag = CLOCAL | CREAD | CS8;
 
     tcflush(fd, TCIFLUSH);
     tcsetattr(fd, TCSANOW, &tty_opts);
