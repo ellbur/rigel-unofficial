@@ -54,6 +54,7 @@ typedef struct rigel_options {
    byte erase;   /* Erase the device. */
    byte master;  /* Perform operations on IFI master processor */
    byte noifi;   /* Disable IFI extensions */
+   byte ifi;     /* Force IFI extensions */
    byte help;    /* Display short usage or full help */
    byte interrupt;
 } rigel_t;

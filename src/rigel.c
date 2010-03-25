@@ -54,6 +54,7 @@ static struct option longopts[] = {
     { "devlist",  required_argument, NULL, 'l' },
     { "format",   required_argument, NULL, 'f' },
     { "no-ifi",   no_argument,       NULL, 'i' },
+    { "ifi",      no_argument,       NULL, 'I' },
     { "rambots",  no_argument,       NULL, 'z' },
     { "master",   no_argument,       NULL, 'm' },
     { "eeprom",   no_argument,       NULL, 'p' },
@@ -80,7 +81,7 @@ capture_output( device_t *dev, const char *out )
     printf("Beginning serial output capture from device %s. For better \n"
            "communication with your device, please use a true terminal \n"
            "emulator (i.e., minicom on UNIX or HyperTerminal on Windows) \n"
-           "or the GUI front-end to this program.\n");    
+           "or the GUI front-end to this program.\n", dev->dev_name);
            
     if(!out)
          outf = stdout;
@@ -281,6 +282,9 @@ main(int argc, char **argv)
         printf("Ignoring IFI erase extensions for this transaction.\n");
         rdev.is_ifi = 0;
         was_ifi = 1;
+    } else if(options.ifi) {
+        rdev.is_ifi = 1;
+        was_ifi = 1;
     }
     
     if(options.conf)
@@ -433,6 +437,7 @@ printf(
    " -r, --run=yes,no  Run program after all operations complete [default].\n"
    " -e, --erase       Force erase a device. Implied for program loads.\n"
    " -i, --no-ifi      Disable IFI erase extensions for IFI controllers.\n"
+   " -I  --ifi         Force IFI extensions, regardless of controller.\n"
    " -p, --eeprom      Load binary image to data EEPROM.\n"
    " -m, --master      Load a program to the master processor (IFI ONLY).\n"
    " -c, --configreg   Print out various configuration register info.\n"
