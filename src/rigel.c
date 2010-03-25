@@ -165,7 +165,7 @@ main(int argc, char **argv)
     options.run = 1;
     options.fmt = IntelHexFormat;
     
-    while((c = getopt_long(argc, argv, "mcpvihzf:l:a::r::t::s:d::",
+    while((c = getopt_long(argc, argv, "mcpviIhzf:l:a::r::t::s:d::",
                            longopts, NULL)) != -1) {
         switch (c) {
         case 's':
@@ -193,6 +193,7 @@ main(int argc, char **argv)
         case 'e': options.erase  = 1; break;
         case 'm': options.master = 1; break;
         case 'i': options.noifi  = 1; break;
+        case 'I': options.ifi    = 1; break;
         
         case 'd':
             if(optarg && strncasecmp(optarg, "boot", 4) == 0)
