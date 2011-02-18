@@ -258,7 +258,7 @@ rigel_rc_load(const char *rigelrc, struct device **dev, size_t max_devices)
     while(!feof(fp)) {
         if(d >= max_devices) {
             rigel_warn("Device count in configuration file %s exceeds maximum "
-                       "number of devices for this program (%d)! Ignoring rest.",
+                       "number of devices for this program (%zu)! Ignoring rest.",
                        rigelrc, max_devices);
                    
             dev[max_devices] = NULL;
